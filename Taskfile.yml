@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  docker:up:
+    cmds:
+      - docker run -d --name luadis-test-redis -p 6379:6379 redis:latest
+    desc: "Start Docker containers"
+  docker:down:
+    cmds:
+      - docker rm -f luadis-test-redis
+    desc: "Stop Docker containers"
+  test:
+    deps:
+      - docker:up
+    cmds:
+      - defer: task docker:down
+      - go test -v -cover ./...
+    desc: "Run tests"
