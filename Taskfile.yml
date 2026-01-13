@@ -16,5 +16,6 @@ tasks:
       - docker:up
     cmds:
       - defer: task docker:down
+      - go run ./sleep/main.go 5s
       - go test -v -cover ./...
     desc: "Run tests"
